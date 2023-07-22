@@ -14,5 +14,6 @@ jobs:
         name: Build
         uses: docker/build-push-action@v4
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           push: true
           tags: ghcr.io/amanthakur0001/github-actions:latest
