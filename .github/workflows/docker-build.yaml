@@ -15,4 +15,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: github-actions:latest
+          tags: ghcr.io/amanthakur0001/github-actions:latest
