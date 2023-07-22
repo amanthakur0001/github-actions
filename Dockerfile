@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
 
 FROM golang:1.19
+LABEL org.opencontainers.image.source=https://github.com/amanthakur0001/github-actions
 
 # Set destination for COPY
 WORKDIR /app
