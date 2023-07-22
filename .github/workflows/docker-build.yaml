@@ -5,6 +5,7 @@ on:
     branches:
       - 'main'
       - 'development'
+      - 'feature/server'
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -13,5 +14,5 @@ jobs:
         name: Build
         uses: docker/build-push-action@v4
         with:
-          push: false
+          push: true
           tags: github-actions:latest
