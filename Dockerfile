@@ -1,41 +1,27 @@
-package main
+# syntax=docker/dockerfile:1
 
-import (
-	"net/http"
-	"os"
+FROM golang:1.19
 
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
-)
+# Set destination for COPY
+WORKDIR /app
 
-func main() {
+# Download Go modules
+COPY go.mod go.sum ./
+RUN go mod download
 
-	e := echo.New()
+# Copy the source code. Note the slash at the end, as explained in
+# https://docs.docker.com/engine/reference/builder/#copy
+COPY *.go ./
 
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
+# Build
+RUN CGO_ENABLED=0 GOOS=linux go build -o /docker-gs-ping
 
-	e.GET("/", func(c echo.Context) error {
-		return c.HTML(http.StatusOK, "Hello, Docker! <3")
-	})
+# Optional:
+# To bind to a TCP port, runtime parameters must be supplied to the docker command.
+# But we can document in the Dockerfile what ports
+# the application is going to listen on by default.
+# https://docs.docker.com/engine/reference/builder/#expose
+EXPOSE 8080
 
-	e.GET("/health", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, struct{ Status string }{Status: "OK"})
-	})
-
-	httpPort := os.Getenv("PORT")
-	if httpPort == "" {
-		httpPort = "8080"
-	}
-
-	e.Logger.Fatal(e.Start(":" + httpPort))
-}
-
-// Simple implementation of an integer minimum
-// Adapted from: https://gobyexample.com/testing-and-benchmarking
-func IntMin(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
+# Run
+CMD ["/docker-gs-ping"]
