@@ -21,6 +21,5 @@ jobs:
         name: Build and Push
         uses: docker/build-push-action@v4
         with:
-          platforms: linux/amd64,linux/arm64
           push: true
           tags: ghcr.io/amanthakur0001/github-actions:${{ github.ref_name }}-${{ github.sha }}
