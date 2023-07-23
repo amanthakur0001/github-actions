@@ -9,10 +9,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestHello(t *testing.T) {
+func TestPrint(t *testing.T) {
 	// Setup
 	e := echo.New()
-	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	req := httptest.NewRequest(http.MethodGet, "/print", nil)
 	rec := httptest.NewRecorder()
 	c := e.NewContext(req, rec)
 
