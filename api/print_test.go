@@ -18,7 +18,7 @@ func TestPrint(t *testing.T) {
 
 	// Assertions
 	if assert.NoError(t, Hello(c)) {
-		assert.Equal(t, http.StatusOK, 400)
+		assert.Equal(t, http.StatusOK, rec.Code)
 	}
 
 }
