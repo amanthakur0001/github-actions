@@ -19,6 +19,8 @@ func main() {
 
 	e.GET("/health", api.Health)
 
+	e.GET("/print", api.Print)
+
 	httpPort := os.Getenv("PORT")
 	if httpPort == "" {
 		httpPort = "8080"
