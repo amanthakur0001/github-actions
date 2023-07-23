@@ -7,7 +7,7 @@ on:
       - 'main'
       - 'development'
 jobs:
-  build-&-test-apis:
+  build-and-test-apis:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
