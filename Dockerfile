@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM golang:1.19
+FROM golang:1.20 AS builder
 
 LABEL org.opencontainers.image.source=https://ghcr.io/amanthakur0001/github-actions
 
@@ -14,9 +14,16 @@ RUN go mod download
 # Copy the source code. Note the slash at the end, as explained in
 # https://docs.docker.com/engine/reference/builder/#copy
 COPY *.go ./
-
+COPY ./api ./api
 # Build
-RUN CGO_ENABLED=0 GOOS=linux go build -o /docker-gs-ping
+RUN CGO_ENABLED=0 GOOS=linux go build -o /main
+
+FROM alpine:latest 
+
+WORKDIR /app
+
+COPY --from=builder /main .
+
 
 # Optional:
 # To bind to a TCP port, runtime parameters must be supplied to the docker command.
@@ -26,4 +33,4 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /docker-gs-ping
 EXPOSE 8080
 
 # Run
-CMD ["/docker-gs-ping"]
+ENTRYPOINT ["./main"]
